@@ -7,10 +7,12 @@ y = 0
 def main():
     global isjump
     global velocity
+    global jumping
     global y
     global canjump
+    global jumpheight
     while True:
-        if canjump:
+        if canjump == True:
             x = input()
             if x == "jump":
                 jumping = True
@@ -20,7 +22,7 @@ def main():
         else:
             velocity = 0
         
-        if jumping:
+        if jumping == True:
             if i <= jumpheight:
                 y += velocity
                 velocity -= 1
