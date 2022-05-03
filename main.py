@@ -27,6 +27,7 @@ def main():
                 y += velocity
                 velocity -= 1
                 i += 1
+                print(y)
             else:
                 jumping = False
                 canjump = True
