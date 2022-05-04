@@ -1,4 +1,5 @@
-velocity = [10, 10, 8, 7, 5, 5, 4, 3, 2, 1, 1, 0, 0, 0, 0, -1, -1, -2, -3, -4, -5, -5, -7, -8, -10, -10]
+velocity = 0
+acceleration = 0.25
 y = 0
 isjump = False
 
@@ -8,12 +9,10 @@ def main():
     while True:
         if isjump == False:
             isjump = True
+            velocity = 
 
         if isjump == True:
-            F = (1 / 2) * m * (v**2)
-            print(y)
-            y += F
-            v -= 1
+            velocity += acceleration
             if v < 0:
                 m = -1
             if v == -6:
