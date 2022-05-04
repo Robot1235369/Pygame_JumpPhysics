@@ -1,36 +1,28 @@
-canjump = True
-jumping = False
-velocity = 25
-jumpheight = 60
+m = 1
+v = 5
 y = 0
+isjump = False
 
 def main():
     global isjump
-    global velocity
-    global jumping
+    global v
+    global m
     global y
-    global canjump
-    global jumpheight
     while True:
-        if canjump == True:
-            x = input()
-            if x == "jump":
-                jumping = True
-                canjump = False
-                velocity = 25
-                i = 0
-        else:
-            velocity = 0
-        
-        if jumping == True:
-            if i <= jumpheight:
-                y += velocity
-                velocity -= 1
-                i += 1
-                print(y)
-            else:
-                jumping = False
-                canjump = True
+        if isjump == False:
+            isjump = True
+
+        if isjump == True:
+            F = (1 / 2) * m * (v**2)
+            y += F
+            print(y)
+            v -= 1
+            if v < 0:
+                m = -1
+            if v == -6:
+                isjump = False
+                v = 5
+                m = 1
 
 if __name__ == "__main__":
     main()
