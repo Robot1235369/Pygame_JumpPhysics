@@ -1,8 +1,11 @@
+import sys
+
 velocity = 0
 acceleration = 0.25
 y = 0
 jumpheight = 60
 isjump = False
+isfall = False
 
 def fall():
     global isjump
@@ -13,6 +16,8 @@ def fall():
     velocity += acceleration
     y -= velocity
     print(y)
+    if y == 0:
+        sys.exit()
 
 def main():
     global isjump
@@ -20,15 +25,22 @@ def main():
     global velocity
     global acceleration
     global jumpheight
-    i = 0
+    global isfall
     while True:
-        if i == 30:
-            break
         if isjump == False:
             isjump = True
-            velocity = 0
-
+            velocity = 7.5
+        
         if isjump == True:
+            velocity -= acceleration
+            y += velocity
+            print(y)
+
+            if velocity == 0:
+                if isfall == False:
+                    isfall = True
+                    print("falling")
+        if isfall == True:
             fall()
             #if velocity == jumpheight:
                 #fall()
@@ -38,7 +50,6 @@ def main():
                 #m = 1
                 #print(y)
                 #break
-        i += 1
 
 if __name__ == "__main__":
     main()
