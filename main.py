@@ -12,6 +12,7 @@ jumpheight = 60
 gravity = jumpheight / ((hangtime**2) / 2)
 velocity = gravity * (hangtime / 2)
 isjump = False
+isfall = False
 
 x = 225
 y = 450
@@ -34,12 +35,16 @@ def fall():
     global velocity
     global jumpheight
     global hangtime
+    global isfall
     if isjump == False:
         if y + velocity < 450:
+            isfall = True
             y += velocity
             velocity += gravity
         else:
             y = 450
+            isfall = False
+            create_vars()
 
 
 def update():
@@ -59,6 +64,7 @@ def main():
     global hangtime
     global running
     global FPS
+    global isfall
     clock = pygame.Clock()
     while running:
         clock.tick(FPS)
@@ -67,14 +73,17 @@ def main():
                 running = False
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_SPACE] and isjump == False:
+        if keys[pygame.K_SPACE] and isjump == False and isfall == False:
             isjump = True
             starty = y
         if isjump == True:
-            if y - velocity == starty + 60:
+            if y - velocity > starty - 60:
                 y -= velocity
                 velocity += gravity
-
+            else:
+                y = starty - 60
+                isjump = False
+                create_vars()
         fall()
         update()
     pygame.quit()
