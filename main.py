@@ -11,7 +11,7 @@ speed = 5
 hangtime = 60
 jumpheight = 60
 gravity = jumpheight / ((hangtime**2) / 2)
-velocity = gravity * (hangtime / 2)
+velocity = 0
 isjump = False
 isfall = False
 
@@ -45,8 +45,6 @@ def fall():
         else:
             y = 450
             isfall = False
-            create_vars()
-
 
 def update():
     global x
@@ -83,14 +81,15 @@ def main():
         if keys[pygame.K_UP] and isjump == False and isfall == False:
             isjump = True
             starty = y
+            create_vars()
         if isjump == True:
-            if y - velocity > starty - 60:
+            if y - velocity > starty - jumpheight:
                 y -= velocity
-                velocity += gravity
+                velocity -= gravity
             else:
-                y = starty - 60
+                y = starty - jumpheight
                 isjump = False
-                create_vars()
+                velocity = 0
         fall()
         update()
     pygame.quit()
