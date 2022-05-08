@@ -8,7 +8,7 @@ FPS = 60
 running = True
 
 speed = 5
-hangtime = 60
+hangtime = 30
 jumpheight = 60
 gravity = jumpheight / ((hangtime**2) / 2)
 velocity = 0
@@ -24,10 +24,7 @@ def create_vars():
     global jumpheight
     global gravity
     global velocity
-    hangtime = 60
-    jumpheight = 60
-    gravity = jumpheight / ((hangtime**2) / 2)
-    velocity = gravity * (hangtime / 2)
+    velocity = 3.8666666666666663
 
 def fall():
     global y
@@ -39,12 +36,14 @@ def fall():
     global isfall
     if isjump == False:
         if y + velocity < 450:
+            velocity += gravity
             isfall = True
             y += velocity
-            velocity += gravity
         else:
             y = 450
             isfall = False
+            print(velocity)
+            velocity = 0
 
 def update():
     global x
@@ -83,12 +82,13 @@ def main():
             starty = y
             create_vars()
         if isjump == True:
-            if y - velocity > starty - jumpheight:
+            if velocity >= 0:
                 y -= velocity
                 velocity -= gravity
             else:
                 y = starty - jumpheight
                 isjump = False
+                print(velocity)
                 velocity = 0
         fall()
         update()
