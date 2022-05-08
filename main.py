@@ -10,7 +10,7 @@ running = True
 speed = 5
 hangtime = 30
 jumpheight = 60
-gravity = jumpheight / ((hangtime**2) / 2)
+gravity = (jumpheight / 2) / ((hangtime**2) / 2)
 velocity = 0
 isjump = False
 isfall = False
@@ -21,10 +21,9 @@ pygame.draw.rect(display, (255, 0, 0), (x, y, 50, 50))
 
 def create_vars():
     global hangtime
-    global jumpheight
     global gravity
     global velocity
-    velocity = 3.8666666666666663
+    velocity = gravity * hangtime
 
 def fall():
     global y
@@ -36,14 +35,12 @@ def fall():
     global isfall
     if isjump == False:
         if y + velocity < 450:
-            velocity += gravity
             isfall = True
             y += velocity
+            velocity += gravity
         else:
             y = 450
             isfall = False
-            print(velocity)
-            velocity = 0
 
 def update():
     global x
@@ -88,7 +85,6 @@ def main():
             else:
                 y = starty - jumpheight
                 isjump = False
-                print(velocity)
                 velocity = 0
         fall()
         update()
