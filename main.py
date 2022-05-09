@@ -9,7 +9,7 @@ running = True
 
 speed = 5
 hangtime = 20
-jumpheight = 60
+jumpheight = 100
 gravity = jumpheight / ((hangtime**2) / 2)
 velocity = 0
 isjump = False
