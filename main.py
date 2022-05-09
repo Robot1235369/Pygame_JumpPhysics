@@ -7,6 +7,7 @@ display = pygame.display.set_mode((500, 500))
 FPS = 60
 running = True
 
+v = 3
 speed = 5
 hangtime = 20
 jumpheight = 60
@@ -15,9 +16,12 @@ velocity = 0
 isjump = False
 isfall = False
 
-x = 225
+x = 316
 y = 450
+X = 133
+Y = 450
 pygame.draw.rect(display, (255, 0, 0), (x, y, 50, 50))
+pygame.draw.rect(display, (0, 0, 255), (X, Y, 50, 50))
 
 def create_vars():
     global hangtime
@@ -33,25 +37,33 @@ def fall():
     global jumpheight
     global hangtime
     global isfall
+    global Y
     if isjump == False:
         if y + velocity < 450:
             isfall = True
             y += velocity
             velocity += gravity
+            Y += v
         else:
             y = 450
+            Y = 450
             isfall = False
 
 def update():
     global x
     global y
+    global X
+    global Y
     display.fill((0, 0, 0))
     pygame.draw.rect(display, (255, 0, 0), (x, y, 50, 50))
+    pygame.draw.rect(display, (0, 0, 255), (X, Y, 50, 50))
     pygame.display.update()
 
 def main():
     global x
     global y
+    global X
+    global Y
     global isjump
     global gravity
     global velocity
@@ -61,6 +73,7 @@ def main():
     global FPS
     global isfall
     global speed
+    global v
     clock = pygame.time.Clock()
     while running:
         clock.tick(FPS)
@@ -82,6 +95,7 @@ def main():
             if velocity >= 0:
                 y -= velocity
                 velocity -= gravity
+                Y -= v
             else:
                 y = starty - jumpheight
                 isjump = False
