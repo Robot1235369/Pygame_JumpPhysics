@@ -8,8 +8,9 @@ FPS = 60
 running = True
 
 speed = 5
-hangtime = 20
+hangtime = 40
 jumpheight = 100
+hangtime /= 2
 gravity = jumpheight / ((hangtime**2) / 2)
 velocity = 0
 isjump = False
