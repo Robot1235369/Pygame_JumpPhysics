@@ -77,23 +77,26 @@ def main():
                 running = False
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
             x += speed
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
             x -= speed
 
-        if keys[pygame.K_UP] and isjump == False and isfall == False:
+        if  isjump == False and isfall == False and keys[pygame.K_UP] or keys[pygame.K_SPACE] and isjump == False and isfall == False:
             isjump = True
             starty = y
             create_vars()
         if isjump == True:
-            if velocity >= 0:
-                y -= velocity
-                velocity -= gravity
-            else:
-                y = starty - jumpheight
+            if keys[pygame.K_DOWN]:
                 isjump = False
-                velocity = 0
+            else:
+                if velocity >= 0:
+                    y -= velocity
+                    velocity -= gravity
+                else:
+                    y = starty - jumpheight
+                    isjump = False
+                    velocity = 0
         fall()
         update()
     pygame.quit()
