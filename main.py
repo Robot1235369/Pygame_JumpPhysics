@@ -16,6 +16,7 @@ velocity = 0
 isjump = False
 isfall = False
 ground = 500 - 50
+fastfall = False
 
 x = 225
 y = ground
@@ -29,7 +30,7 @@ def create_vars():
     global velocity
     velocity = gravity * hangtime
 
-def fall():
+def fall(keys, fastfall):
     global y
     global isjump
     global gravity
@@ -40,12 +41,17 @@ def fall():
     global ground
     if isjump == False:
         if y + velocity < ground:
+            if keys[pygame.K_DOWN] or fastfall == True:
+                gravity *= 1.5
+                fastfall = True
             isfall = True
             y += velocity
             velocity += gravity
         else:
             y = ground
             isfall = False
+            gravity = jumpheight / ((hangtime**2) / 2)
+            fastfall = False
 
 def update():
     global x
@@ -69,6 +75,7 @@ def main():
     global isfall
     global speed
     global X
+    global keys
     clock = pygame.time.Clock()
     while running:
         clock.tick(FPS)
@@ -78,9 +85,15 @@ def main():
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            x += speed
+            if x + speed >= 450:
+                x = 450
+            else:
+                x += speed
         if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            x -= speed
+            if x - speed <= 0:
+                x = 0
+            else:
+                x -= speed
 
         if  isjump == False and isfall == False and keys[pygame.K_UP] or keys[pygame.K_SPACE] and isjump == False and isfall == False:
             isjump = True
@@ -89,7 +102,9 @@ def main():
         if isjump == True:
             if keys[pygame.K_DOWN]:
                 isjump = False
+                fastfall == True
             else:
+                fastfall == False
                 if velocity >= 0:
                     y -= velocity
                     velocity -= gravity
@@ -97,7 +112,7 @@ def main():
                     y = starty - jumpheight
                     isjump = False
                     velocity = 0
-        fall()
+        fall(keys, fastfall)
         update()
     pygame.quit()
 
