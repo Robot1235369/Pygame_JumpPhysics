@@ -17,6 +17,7 @@ isjump = False
 isfall = False
 ground = 500 - 50
 fastfall = False
+walljump = False
 
 x = 225
 y = ground
@@ -53,6 +54,36 @@ def fall(keys, fastfall):
             gravity = jumpheight / ((hangtime**2) / 2)
             fastfall = False
 
+def jump(keys):
+    global isjump
+    global y
+    global gravity
+    global velocity
+    global fastfall
+    global starty
+    global speed
+    global walljump
+    if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
+        if isjump == False and isfall == False or x + speed >= 450 and walljump == False or x - speed <= 0 and walljump == False:
+            isjump = True
+            walljump = True
+            starty = y
+            create_vars()
+    if isjump == True:
+        if keys[pygame.K_DOWN]:
+            isjump = False
+            fastfall == True
+        else:
+            fastfall == False
+            if velocity >= 0:
+                y -= velocity
+                velocity -= gravity
+            else:
+                y = starty - jumpheight
+                isjump = False
+                velocity = 0
+                walljump = False
+
 def update():
     global x
     global y
@@ -84,34 +115,18 @@ def main():
                 running = False
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+        if keys[pygame.K_RIGHT]:
             if x + speed >= 450:
                 x = 450
             else:
                 x += speed
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+        if keys[pygame.K_LEFT]:
             if x - speed <= 0:
                 x = 0
             else:
                 x -= speed
-
-        if  isjump == False and isfall == False and keys[pygame.K_UP] or keys[pygame.K_SPACE] and isjump == False and isfall == False:
-            isjump = True
-            starty = y
-            create_vars()
-        if isjump == True:
-            if keys[pygame.K_DOWN]:
-                isjump = False
-                fastfall == True
-            else:
-                fastfall == False
-                if velocity >= 0:
-                    y -= velocity
-                    velocity -= gravity
-                else:
-                    y = starty - jumpheight
-                    isjump = False
-                    velocity = 0
+        
+        jump(keys)
         fall(keys, fastfall)
         update()
     pygame.quit()
