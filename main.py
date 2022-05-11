@@ -78,6 +78,8 @@ def jump(keys):
         if keys[pygame.K_DOWN]:
             isjump = False
             fastfall == True
+            jumped = False
+            walljump = True
         else:
             fastfall == False
             if velocity >= 0:
