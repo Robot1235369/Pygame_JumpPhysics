@@ -17,7 +17,7 @@ isjump = False
 isfall = False
 ground = 500 - 50
 fastfall = False
-walljump = False
+walljump = True
 
 x = 225
 y = ground
@@ -40,6 +40,7 @@ def fall(keys, fastfall):
     global hangtime
     global isfall
     global ground
+    global walljump
     if isjump == False:
         if y + velocity < ground:
             if keys[pygame.K_DOWN] or fastfall == True:
@@ -63,10 +64,11 @@ def jump(keys):
     global starty
     global speed
     global walljump
+    global x
     if keys[pygame.K_UP] or keys[pygame.K_SPACE]:
-        if isjump == False and isfall == False or x + speed >= 450 and walljump == False or x - speed <= 0 and walljump == False:
+        if isjump == False and isfall == False or x + speed >= 450 and walljump == True or x - speed <= 0 and walljump == True:
             isjump = True
-            walljump = True
+            walljump = False
             starty = y
             create_vars()
     if isjump == True:
@@ -82,7 +84,6 @@ def jump(keys):
                 y = starty - jumpheight
                 isjump = False
                 velocity = 0
-                walljump = False
 
 def update():
     global x
@@ -107,6 +108,7 @@ def main():
     global speed
     global X
     global keys
+    global walljump
     clock = pygame.time.Clock()
     while running:
         clock.tick(FPS)
@@ -125,6 +127,9 @@ def main():
                 x = 0
             else:
                 x -= speed
+        
+        if x + speed < 450 and x - speed > 0:
+            walljump = True
         
         jump(keys)
         fall(keys, fastfall)
