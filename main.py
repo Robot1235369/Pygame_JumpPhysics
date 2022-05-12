@@ -8,8 +8,8 @@ FPS = 60
 running = True
 
 speed = 5
-hangtime = 35
-jumpheight = 100
+hangtime = 40
+jumpheight = 125
 hangtime /= 2
 gravity = jumpheight / ((hangtime**2) / 2)
 velocity = 0
