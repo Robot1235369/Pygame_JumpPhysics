@@ -4,6 +4,12 @@ pygame.init()
 
 display = pygame.display.set_mode((500, 500))
 
+red = 255
+green = 0
+blue = 0
+start_red = False
+start_green = False
+start_blue = False
 FPS = 60
 running = True
 
@@ -95,9 +101,36 @@ def update():
     global x
     global y
     global X
+    global red
+    global green
+    global blue
+    global start_red
+    global start_green
+    global start_blue
     display.fill((0, 0, 0))
-    pygame.draw.rect(display, (255, 0, 0), (x, y, 50, 50))
-    pygame.draw.rect(display, (255, 0, 0), (X, y, 50, 50))
+    if red == 255:
+      start_red = False
+      start_green = True
+      start_blue = False
+    elif green == 255:
+      start_red = False
+      start_green = False
+      start_blue = True
+    elif blue == 255:
+      start_red = True
+      start_green = False
+      start_blue = False
+    if start_green:
+      red -= 1
+      green += 1
+    elif start_blue:
+      green -= 1
+      blue += 1
+    elif start_red:
+      blue -= 1
+      red += 1
+    pygame.draw.rect(display, (red, green, blue), (x, y, 50, 50))
+    pygame.draw.rect(display, (red, green, blue), (X, y, 50, 50))
     pygame.display.update()
 
 def main():
